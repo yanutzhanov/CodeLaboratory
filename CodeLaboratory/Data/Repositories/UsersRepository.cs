@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using CodeLaboratory.Data.Contexts;
 using CodeLaboratory.Data.Repositories.Abstract;
 using CodeLaboratory.Enteties;
@@ -23,7 +20,7 @@ namespace CodeLaboratory.Data.Repositories
             string hashedPassword = MD5Algorithm.GetHashString(password);
 
             UserEntity user = _context.Users.FirstOrDefault(x => x.Login == login &&
-                                                                               x.Password == hashedPassword);
+                                                                         x.Password == hashedPassword);
 
             return !(user is null);
         }
