@@ -6,5 +6,6 @@ namespace CodeLaboratory.Data.Repositories.Abstract
     {
         bool UserIsExist(string login, string password);
         UserEntity GetUser(string login, string password);
+        bool UserWithSameLoginIsExist(string login);
     }
 }
