@@ -16,7 +16,6 @@ namespace CodeLaboratory.Services
             _chatMessageRepository = chatMessageRepository ?? throw new ArgumentNullException(nameof(chatMessageRepository));
         }
 
-
         public void Send(ChatMessage message)
         {
             _chatMessageRepository.Create(message.Adapt<ChatMessageEntity>());
