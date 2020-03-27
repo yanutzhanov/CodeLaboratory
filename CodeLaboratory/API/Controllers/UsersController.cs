@@ -19,7 +19,7 @@ namespace CodeLaboratory.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody]LoginModel model)
+        public IActionResult Login([FromBody]LoginModel model)
         {
             User user = _usersService.GetUser(model.Login, model.Password);
             if (user is null)
@@ -41,7 +41,7 @@ namespace CodeLaboratory.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody]RegisterModel model)
+        public IActionResult Register([FromBody]RegisterModel model)
         {
             if (_usersService.UserWithSameLoginIsExist(model.Login))
             {
