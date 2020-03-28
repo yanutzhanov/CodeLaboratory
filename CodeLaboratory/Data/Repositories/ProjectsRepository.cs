@@ -28,7 +28,7 @@ namespace CodeLaboratory.Data.Repositories
             entity.Owner = user;
             _context.Projects.Add(entity);
             _context.UserProjects.Add(new UserProjectEntity { Project = entity, User = user });
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
     }
