@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeLab</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        header {
+            color: white;
+            background-color: #02005C;
+            height: 100px;
+            display: flex;
+            padding: 0 10% 0 10%;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 30px;
+            font-family: 'Ruda', sans-serif;
+        }
+        nav {
+            width: 45%;
+            /* padding-left: 0%; */
+            font-size: 24px;
+        }
+        header ul {
+            display: flex;
+            justify-content: space-between;
+        }
+        header ul li {
+            list-style-type: none;
+        }
+        header ul li a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Rokkitt', serif;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            margin-top: 30px;
+            margin-bottom: 60px;
+            padding: 0 10% 0 10%;
+        }
+        .head {
+            height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,.7)), url('img/145829447816973609.jpg');
+            background-size: cover;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .head h1 {
+            font-size: 144px;
+            font-family: 'Rokkitt', serif;
+            opacity: 0.78;
+        }
+        .head p {
+            font-family: 'Rokkitt', serif;
+            font-size: 36px;
+            opacity: 0.78;
+        }
+        .advantages {
+            margin-top: 10%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .advantages-image {
+            padding-top: 15px;
+        } 
+        .advantages-image img {
+            width: 600px;
+            height: 500px;
+        }
+        .advantage-items {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .advantage-item {
+            height: 130px;
+            width: 430px;
+            font-size: 36px;
+            font-family: 'Rokkitt', serif;
+        }
+        .advantage-item h3 {
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+        .advantage-item p{
+            font-size: 24px;
+        }
+        .guide {
+            margin-top: 10%;
+            font-size: 24px;
+            font-family: 'Rokkitt', serif;
+            margin-bottom: 10%;
+        }
+        .guide h2{
+            text-align: center;
+            font-weight: normal;
+            font-size: 48px;
+            margin-bottom: 5%;
+        }
+        .guide ol{
+            width: 70%;
+            margin: auto;
+        }
+        footer {
+            display: flex;
+            background-color: #02005C;
+            color: white;
+            padding: 0 10% 0 10%;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .footer-logo {
+            margin: 0;
+        }
+        .footer-logo h3 {
+            display: inline;
+            font-size: 30px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Ruda&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>CodeLab</h1></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="create-idea.html">Проекты</a></li>
+                <li><a href="registration.html">Регистрация</a></li>
+                <li><a href="login.html">Вход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="head">
+            <h1>CodeLab</h1>
+            <p>Платформа для обучения и <br> практики <br> по программированию</p>
+        </div>
+        <div class="advantages">
+            <div class="advantages-image">
+                <img src="img/developer-3461405_1280.png" alt="">
+            </div>
+            <div class="advantages-list">
+                <ul class="advantage-items">
+                    <li class="advantage-item">
+                        <h3>Общайтесь</h3>
+                        <p>Находите сообщников и совместно<br> создавайте новые проекты. Ищите <br> новых знакомых в мире IT</p>
+                    </li>
+                    <li class="advantage-item">
+                        <h3>Развивайтесь</h3>
+                        <p>Помогайте новичкам, получайте <br> советы и делитесь ценным опытом <br> в разработке ПО</p>
+                    </li>
+                    <li class="advantage-item">
+                        <h3>Практикуйтесь</h3>
+                        <p>Реализуйте свои идеи, находите <br> проекты других людей и внесите <br> свой вклад в их развитие</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="guide">
+            <h2>Руководство</h2>
+            <ol>
+                <li>Зарегистрируйтесь на GitHub</li>
+                <li>Зарегистрируйтесь на нашем сайте</li>
+                <li>Создайте репозиторий на GitHub</li>
+                <li>Опубликуйте ваш проект</li>
+                <li>Пригласите друзей или объединитесь с другими программистами</li>
+                <li>Получайте удовольствие от совместной реализации проекта</li>
+            </ol>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-logo">
+            <h3>CodeLab</h3>
+            <span>2020</span>
+        </div>
+        <div>
+            <span>Разработано компанией AOYU</span>
+        </div>
+    </footer>
+</body>
+</html>

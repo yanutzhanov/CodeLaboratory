@@ -27,11 +27,19 @@ namespace CodeLaboratory.Data.Repositories
 
         public bool UserWithSameLoginIsExist(string login)
         {
-            if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
+            //if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
 
-            UserEntity user = _context.Users.FirstOrDefault(x => x.Login.ToLower() == login.ToLower());
+            //UserEntity user = _context.Users.FirstOrDefault(x => x.Login.ToLower() == login.ToLower());
 
-            return !(user is null);
+            //return !(user is null);
+
+            foreach (var user in _context.Users)
+            {
+                if (user.Login.ToLower() == login.ToLower())
+                    return true;
+            }
+
+            return false;
         }
 
         public UserEntity GetUser(string login, string password)

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using CodeLaboratory.Enteties.Abstract;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace CodeLaboratory.Enteties
 {
     [Table("user_projects")]
-    public class UserProjectEntity
+    public class UserProjectEntity : BaseEntity
     {
         public string UserId { get; set; }
         public int ProjectId { get; set; }

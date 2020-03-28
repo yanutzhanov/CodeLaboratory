@@ -38,8 +38,8 @@ namespace CodeLaboratory.Services
 
         public bool UserWithSameLoginIsExist(string login)
         {
-            if (string.IsNullOrEmpty(login))
-                throw new ArgumentException("Value cannot be null or empty.", nameof(login));
+            //if (string.IsNullOrEmpty(login))
+            //    throw new ArgumentException("Value cannot be null or empty.", nameof(login));
 
             return _usersRepository.UserWithSameLoginIsExist(login);
         }
@@ -67,9 +67,9 @@ namespace CodeLaboratory.Services
             if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
             if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
 
-            UserEntity fundedUser = _usersRepository.GetUser(login, password);
+            UserEntity foundUser = _usersRepository.GetUser(login, password);
 
-            return fundedUser.Adapt<User>();
+            return foundUser.Adapt<User>();
         }
 
         public ClaimsIdentity GetIdentity(User user)

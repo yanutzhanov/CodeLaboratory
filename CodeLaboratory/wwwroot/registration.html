@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Регистрация</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        header {
+            color: white;
+            background-color: #02005C;
+            height: 100px;
+            display: flex;
+            padding: 0 10% 0 10%;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 30px;
+            font-family: 'Ruda', sans-serif;
+        }
+        nav {
+            width: 45%;
+            /* padding-left: 0%; */
+            font-size: 24px;
+        }
+        ul {
+            display: flex;
+            justify-content: space-between;
+        }
+        ul li {
+            list-style-type: none;
+        }
+        ul li a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Rokkitt', serif;
+            font-weight: bold;
+        }
+        
+        main {
+            display: flex;
+            flex-direction: column;
+            margin-top: 30px;
+            margin-bottom: 60px;
+        }
+        main h2 {
+            font-family: 'Ruda', sans-serif;
+            font-size: 48px;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+        .fields {
+            display: flex;
+            margin: auto;
+            width: 800px;
+            justify-content: space-between;
+        }
+        .required-fields div, .non-required-fields div{
+            margin-bottom: 30px;
+        }
+        p {
+            text-align: center;
+            font-family: 'Ruda', sans-serif;
+            font-size: 18px;
+            opacity: 50%;
+            margin-bottom: 20px;
+        }
+        label {
+            font-family: 'Ruda', sans-serif;
+            font-size: 18px;
+        }
+        input {
+            width: 260px;
+            height: 30px;
+            font-size: 20px;
+            padding-left: 10px;
+        }
+        .sbm-btn {
+            text-align: center;
+        }
+        button {
+            border: 0;
+            background-color: #02005C;
+            color: white;
+            width: 260px;
+            height: 40px;
+            font-size: 23px;
+        }
+        button[disabled="disabled"] {
+            background-color: #02005C;
+            opacity: 0.5;
+        }
+        footer {
+            display: flex;
+            background-color: #02005C;
+            color: white;
+            padding: 0 10% 0 10%;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .footer-logo {
+            margin: 0;
+        }
+        .footer-logo h3 {
+            display: inline;
+            font-size: 30px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Ruda&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>CodeLab</h1></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="create-idea.html">Проекты</a></li>
+                <li><a href="registration.html">Регистрация</a></li>
+                <li><a href="login.html">Вход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Регистрация</h2>
+        <form id="regForm">
+            <div class="fields">
+                <div class="required-fields">
+                    <p>Обязательные поля</p>
+                    <div>
+                        <label>Логин <br><input type="text" id="login"></label> <br>
+                        <span id="login-error"> </span>
+                    </div>
+                    <div>
+                        <label>Почта <br><input type="email" id="email"></label> <br>
+                        <span id="email-error"> </span>
+                    </div>
+                    <div>
+                        <label>Ссылка на GitHub <br><input type="text" id="github" value="https://github.com/"></label> <br>
+                        <span id="github-error"> </span>
+                    </div>
+                    <div>
+                        <label>Пароль <br><input type="password" id="password"></label> <br>
+                        <span id="password-error"> </span>
+                    </div>
+                    <div>
+                        <label>Повторите пароль <br><input type="password" id="confirm-password"></label> <br>
+                        <span id="confirm-password-error"> </span>
+                    </div>
+                </div>
+                <div class="non-required-fields">
+                    <p>Необязательные поля</p>
+                    <div>
+                        <label>Имя <br><input type="text" id="name"></label>
+                    </div>
+                    <div>
+                        <label>Фамилия <br><input type="text" id="secondName"></label>
+                    </div>
+                    <div>
+                        <label>Возраст <br><input type="number" id="age"></label>
+                    </div>
+                    <div>
+                        <label>Город <br><input type="text" id="city"></label>
+                    </div>
+                    <div>
+                        <label>Ссылка на Discord <br><input type="text" id="discord"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="sbm-btn">
+                <button id="register-btn" disabled="disabled">Зарегистрироваться</button>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <div class="footer-logo">
+            <h3>CodeLab</h3>
+            <span>2020</span>
+        </div>
+        <div>
+            <span>Разработано компанией AOYU</span>
+        </div>
+    </footer>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+
+        $('#register-btn').click(function(e) {
+
+            e.preventDefault();
+            $.ajax("api/users/register", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                    login: $('#login').val(),
+                    email: $('#email').val(),
+                    gitHub: $('#github').val(),
+                    password: $('#password').val(),
+                    firstName: $('#name').val(),
+                    secondName: $('#secondName').val(),
+                    age: parseInt($('#age').val()),
+                    city: $('#city').val(),
+                    discord: $('#discord').val()
+                }),
+                success: function(jsondata) {
+                    sessionStorage.setItem('tokenKey', jsondata.token);
+                    sessionStorage.setItem('login', jsondata.login);
+                    console.log(jsondata);
+                }
+            });
+        });
+
+        let regex = new RegExp("https://github.com/[a-zA-Z0-9_]");
+
+        function FormCheck(){
+            if ($('#password').val().length > 5 && 
+                $('#login').val().length > 2 &&
+                $('#confirm-password').val() == $('#password').val() &&
+                $('#github').val().match("https://github.com/[a-zA-Z0-9_]")) {
+                    $('#register-btn').removeAttr('disabled');
+                } else {
+                    $('#register-btn').attr('disabled', 'true');
+                }
+
+            // $("#password").val().length < 6 ? $('#register-btn').attr('disabled', 'true') : $('#register-btn').removeAttr('disabled');
+        }
+
+        $('#login').keyup(() => {
+            $.ajax("api/users/checklogin", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: {
+                    login: $('#login').val()
+                },
+                success: function() {
+                    $('#login-error').css('color', 'green');
+                    $('#login-error').text("Доступно");
+                },
+                error: function() {
+                    $('#login-error').css('color', 'red');
+                    $('#login-error').text("Логин занят");
+                }
+            })
+        });
+
+        $('#password').keyup(() => FormCheck());
+        $('#confirm-password').keyup(() => FormCheck());
+        $('#github').keyup(() => FormCheck());
+        FormCheck();
+    </script>
+</body>
+</html>

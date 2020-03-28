@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Создание проекта</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        header {
+            color: white;
+            background-color: #02005C;
+            height: 100px;
+            display: flex;
+            padding: 0 10% 0 10%;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 30px;
+            font-family: 'Ruda', sans-serif;
+        }
+        nav {
+            width: 45%;
+            /* padding-left: 0%; */
+            font-size: 24px;
+        }
+        ul {
+            display: flex;
+            justify-content: space-between;
+        }
+        ul li {
+            list-style-type: none;
+        }
+        ul li a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Rokkitt', serif;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        main h2 {
+            font-family: 'Ruda', sans-serif;
+            font-size: 48px;
+            margin: auto;
+            margin-bottom: 30px;
+        }
+        
+        #create-idea-post {
+            display: flex;
+            justify-content: center;
+        }
+        #create-idea-post div {
+            margin: 0 3% 30px 3%;
+        }
+        p {
+            text-align: center;
+            font-family: 'Ruda', sans-serif;
+            font-size: 18px;
+            opacity: 50%;
+            margin-bottom: 20px;
+        }
+        label {
+            font-family: 'Ruda', sans-serif;
+            font-size: 18px;
+        }
+        input {
+            width: 260px;
+            height: 30px;
+            font-size: 20px;
+            padding-left: 10px;
+        }
+        textarea {
+            font-size: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .sbm-btn {
+            text-align: center;
+        }
+        button {
+            border: 0;
+            background-color: #02005C;
+            color: white;
+            width: 130px;
+            height: 40px;
+            font-size: 23px;
+        }
+        button[disabled="disabled"] {
+            background-color: #02005C;
+            opacity: 0.5;
+        }
+        footer {
+            display: flex;
+            background-color: #02005C;
+            color: white;
+            padding: 0 10% 0 10%;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .footer-logo {
+            margin: 0;
+        }
+        .footer-logo h3 {
+            display: inline;
+            font-size: 30px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Ruda&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>CodeLab</h1></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="create-idea.html">Проекты</a></li>
+                <li><a href="registration.html">Регистрация</a></li>
+                <li><a href="login.html">Вход</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Создание проекта</h2>
+        <form id="regForm">
+            <div id="create-idea-post">
+                <div>
+                    <label> Описание <br>
+                        <textarea name="" id="description" cols="50" rows="13"></textarea>
+                    </label>
+                </div>
+                <div>
+                    <div>
+                        <label>
+                            Название идеи <br>
+                            <input type="text" id="name">
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Макс. кол-во человек <br>
+                            <input type="number" id="maxPeople">
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Ссылка на GitHub <br>
+                            <input type="text" id="gitHub">
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Ссылка на Discord <br>
+                            <input type="text" id="discord">
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Язык программирования <br>
+                            <input type="text" id="language">
+                        </label>
+                    </div>
+
+                </div>
+                
+               
+            </div>
+
+            
+            <div class="sbm-btn">
+                <button id="create-btn">Создать</button>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <div class="footer-logo">
+            <h3>CodeLab</h3>
+            <span>2020</span>
+        </div>
+        <div>
+            <span>Разработано компанией AOYU</span>
+        </div>
+    </footer>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $('#create-btn').click(function(e) {
+            e.preventDefault();
+            $.ajax("api/projects", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + sessionStorage.getItem('tokenKey')
+                },
+                data: JSON.stringify({
+                    name: $('#name').val(),
+                    maxPeople: parseInt($('#maxPeople').val()),
+                    description: $('#description').val(),
+                    gitHub: $('#gitHub').val(),
+                    discord: $('#discord').val(),
+                    language: $('#language').val()
+                }),
+                success: function(jsondata) {
+                    console.log(jsondata.id);
+                    console.log(jsondata);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+        
+        
+    </script>
+</body>
+</html>

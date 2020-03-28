@@ -4,21 +4,24 @@ using System.Threading.Tasks;
 using CodeLaboratory.Domain;
 using CodeLaboratory.Models;
 using CodeLaboratory.Services;
+using CodeLaboratory.Services.Abstract;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeLaboratory.API.Controllers
 {
+    [ApiController]
+    [Route("api/{Controller}/{Action}")]
     public class UsersController : Controller
     {
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        public UsersController(UsersService usersService)
+        public UsersController(IUsersService usersService)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         public IActionResult Login([FromBody]LoginModel model)
         {
             User user = _usersService.GetUser(model.Login, model.Password);
@@ -40,7 +43,7 @@ namespace CodeLaboratory.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         public IActionResult Register([FromBody]RegisterModel model)
         {
             if (_usersService.UserWithSameLoginIsExist(model.Login))

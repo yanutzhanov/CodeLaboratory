@@ -17,6 +17,7 @@ using CodeLaboratory.Services.Abstract;
 using CodeLaboratory.Services;
 using CodeLaboratory.Data.Repositories.Abstract;
 using CodeLaboratory.Data.Repositories;
+using CodeLaboratory.Enteties;
 
 namespace CodeLaboratory
 {
@@ -49,14 +50,17 @@ namespace CodeLaboratory
                     };
                 });
             services.AddCors();
-            services.AddControllers();
             services.AddDbContext<CodeLabDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("mssqldb"));
             });
 
-            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IProjectsRepository, ProjectsRepository>();
+            services.AddScoped<IProjectsService, ProjectsService>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersService, UsersService>();
+
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
