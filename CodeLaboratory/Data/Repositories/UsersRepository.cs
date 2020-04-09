@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeLaboratory.Data.Contexts;
 using CodeLaboratory.Data.Repositories.Abstract;
 using CodeLaboratory.Enteties;
 using CodeLaboratory.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeLaboratory.Data.Repositories
 {
@@ -15,11 +17,11 @@ namespace CodeLaboratory.Data.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public bool UserIsExist(string login, string password)
+        public async Task<bool> UserIsExist(string login, string password)
         {
             string hashedPassword = MD5Algorithm.GetHashString(password);
 
-            UserEntity user = _context.Users.FirstOrDefault(x => x.Login == login &&
+            UserEntity user = await _context.Users.FirstOrDefaultAsync(x => x.Login == login &&
                                                                          x.Password == hashedPassword);
 
             return !(user is null);
@@ -27,12 +29,6 @@ namespace CodeLaboratory.Data.Repositories
 
         public bool UserWithSameLoginIsExist(string login)
         {
-            //if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
-
-            //UserEntity user = _context.Users.FirstOrDefault(x => x.Login.ToLower() == login.ToLower());
-
-            //return !(user is null);
-
             foreach (var user in _context.Users)
             {
                 if (user.Login.ToLower() == login.ToLower())
@@ -42,10 +38,15 @@ namespace CodeLaboratory.Data.Repositories
             return false;
         }
 
-        public UserEntity GetUser(string login, string password)
+        public async Task<UserEntity> GetUser(string login, string password)
         {
-            return _context.Users.FirstOrDefault(x => x.Login == login &&
+            return await _context.Users.FirstOrDefaultAsync(x => x.Login == login &&
                                                               x.Password == password);
+        }
+
+        public async Task<UserEntity> GetUserByLogin(string login)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Login == login);
         }
     }
 }

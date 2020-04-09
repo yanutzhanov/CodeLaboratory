@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeLaboratory.Data.Contexts;
 using CodeLaboratory.Enteties.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -17,32 +18,33 @@ namespace CodeLaboratory.Data.Repositories.Abstract
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _dbSet = _context.Set<TEntity>();
         }
-        public void Create(TEntity entity)
+        public async Task Create(TEntity entity)
         {
             _dbSet.Add(entity);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(TEntity entity)
+        public async Task Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<TEntity> Get()
+        public async Task<IEnumerable<TEntity>> Get()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetById(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
+            _context.Update(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

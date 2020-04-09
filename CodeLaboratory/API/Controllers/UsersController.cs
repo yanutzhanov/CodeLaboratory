@@ -22,9 +22,9 @@ namespace CodeLaboratory.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody]LoginModel model)
+        public async Task<IActionResult> Login([FromBody]LoginModel model)
         {
-            User user = _usersService.GetUser(model.Login, model.Password);
+            User user = await _usersService.GetUser(model.Login, model.Password);
             if (user is null)
             {
                 return BadRequest("Invalid username or password");
@@ -44,7 +44,7 @@ namespace CodeLaboratory.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register([FromBody]RegisterModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterModel model)
         {
             if (_usersService.UserWithSameLoginIsExist(model.Login))
             {
@@ -55,7 +55,7 @@ namespace CodeLaboratory.API.Controllers
 
             User user = model.Adapt<User>();
 
-            _usersService.Create(user);
+            await _usersService.Create(user);
 
             var identity = _usersService.GetIdentity(user);
 

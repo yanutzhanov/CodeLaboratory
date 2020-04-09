@@ -1,5 +1,6 @@
 ﻿using CodeLaboratory.Enteties;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CodeLaboratory.Data.Contexts
 {
@@ -14,11 +15,12 @@ namespace CodeLaboratory.Data.Contexts
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<UserProjectEntity> UserProjects { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-        //    modelBuilder.Entity<UserProjectEntity>().HasKey(up => new { up.UserId, up.ProjectId });
-        //    modelBuilder.Entity<UserEntity>().HasAlternateKey(u => u.Login);
-        //}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserProjectEntity>().HasKey(up => new { up.UserId, up.ProjectId });
+            modelBuilder.Entity<UserEntity>().HasAlternateKey(u => u.Login);
+        }
     }
 }

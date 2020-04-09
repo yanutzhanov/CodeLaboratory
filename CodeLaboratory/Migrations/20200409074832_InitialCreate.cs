@@ -12,7 +12,7 @@ namespace CodeLaboratory.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(nullable: true),
+                    Login = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     GitHub = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
@@ -27,6 +27,7 @@ namespace CodeLaboratory.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.Id);
+                    table.UniqueConstraint("AK_users_Login", x => x.Login);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,8 +41,7 @@ namespace CodeLaboratory.Migrations
                     Description = table.Column<string>(nullable: true),
                     GitHub = table.Column<string>(nullable: true),
                     Discord = table.Column<string>(nullable: true),
-                    OwnerId = table.Column<string>(nullable: true),
-                    OwnerId1 = table.Column<int>(nullable: true),
+                    OwnerId = table.Column<int>(nullable: false),
                     Finished = table.Column<bool>(nullable: false),
                     Language = table.Column<string>(nullable: true)
                 },
@@ -49,54 +49,47 @@ namespace CodeLaboratory.Migrations
                 {
                     table.PrimaryKey("PK_projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_projects_users_OwnerId1",
-                        column: x => x.OwnerId1,
+                        name: "FK_projects_users_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "user_projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<int>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_projects", x => x.Id);
+                    table.PrimaryKey("PK_user_projects", x => new { x.UserId, x.ProjectId });
                     table.ForeignKey(
                         name: "FK_user_projects_projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_user_projects_users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_user_projects_users_UserId",
+                        column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_projects_OwnerId1",
+                name: "IX_projects_OwnerId",
                 table: "projects",
-                column: "OwnerId1");
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_projects_ProjectId",
                 table: "user_projects",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_projects_UserId1",
-                table: "user_projects",
-                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

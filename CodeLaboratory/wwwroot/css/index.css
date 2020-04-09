@@ -1,0 +1,119 @@
+﻿main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    padding: 0 10% 0 10%;
+}
+
+.head {
+    height: 100vh;
+    background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,.7)), url('../img/145829447816973609.jpg');
+    background-size: cover;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .head h1 {
+        font-size: 144px;
+        font-family: 'Rokkitt', serif;
+        opacity: 0.78;
+    }
+
+    .head p {
+        font-family: 'Rokkitt', serif;
+        font-size: 36px;
+        opacity: 0.78;
+    }
+
+.advantages {
+    margin-top: 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.advantages-image {
+    padding-top: 15px;
+}
+
+    .advantages-image img {
+        width: 600px;
+        height: 500px;
+    }
+
+.advantage-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.advantage-item {
+    height: 130px;
+    width: 430px;
+    font-size: 36px;
+    font-family: 'Rokkitt', serif;
+}
+
+    .advantage-item h3 {
+        font-weight: normal;
+        margin-bottom: 12px;
+    }
+
+    .advantage-item p {
+        font-size: 24px;
+    }
+
+.guide {
+    margin-top: 10%;
+    font-size: 24px;
+    font-family: 'Rokkitt', serif;
+    margin-bottom: 10%;
+}
+
+    .guide h2 {
+        text-align: center;
+        font-weight: normal;
+        font-size: 48px;
+        margin-bottom: 5%;
+    }
+
+    .guide ol {
+        width: 70%;
+        margin: auto;
+    }
+
+    @media (max-width: 1000px) {
+        .advantages {
+            flex-direction: column;
+        }
+
+        .advantages li {
+            list-style-type: none;
+            height: auto;
+            margin-bottom: 10px;
+            text-align: center;
+            margin: auto;
+        }
+
+        .advantages h3 {
+            text-align: center;
+        }
+
+        header {
+            height: auto;
+        }
+
+        header ul {
+            flex-direction: column;
+        }
+        .advantages-image {
+            margin: auto;
+        }
+         .advantages-image img {
+             width: 100%;
+             max-width: 600px;
+         }
+    }

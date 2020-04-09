@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using CodeLaboratory.Data.Repositories.Abstract;
 using CodeLaboratory.Domain;
 using CodeLaboratory.Enteties;
 using CodeLaboratory.Helpers;
 using CodeLaboratory.Services.Abstract;
 using Mapster;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CodeLaboratory.Services
@@ -21,26 +25,25 @@ namespace CodeLaboratory.Services
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
         }
 
-        public void Create(User user)
+        public async Task Create(User user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            _usersRepository.Create(user.Adapt<UserEntity>());
+            user.Password = MD5Algorithm.GetHashString(user.Password);
+
+            await _usersRepository.Create(user.Adapt<UserEntity>());
         }
 
-        public bool UserIsExist(string login, string password)
+        public async Task<bool> UserIsExist(string login, string password)
         {
             if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
             if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
 
-            return _usersRepository.UserIsExist(login, password);
+            return await _usersRepository.UserIsExist(login, password);
         }
 
         public bool UserWithSameLoginIsExist(string login)
         {
-            //if (string.IsNullOrEmpty(login))
-            //    throw new ArgumentException("Value cannot be null or empty.", nameof(login));
-
             return _usersRepository.UserWithSameLoginIsExist(login);
         }
 
@@ -62,12 +65,24 @@ namespace CodeLaboratory.Services
             return encodedJwt;
         }
 
-        public User GetUser(string login, string password)
+        public async Task<User> GetAuthenticatedUser(string login)
+        {
+            if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
+            UserEntity foundUser = await _usersRepository.GetUserByLogin(login);
+
+            if (foundUser is null) return null;
+
+            return foundUser.Adapt<User>();
+        }
+
+        public async Task<User> GetUser(string login, string password)
         {
             if (string.IsNullOrEmpty(login)) throw new ArgumentNullException(nameof(login));
             if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
 
-            UserEntity foundUser = _usersRepository.GetUser(login, password);
+            password = CodeLaboratory.Helpers.MD5Algorithm.GetHashString(password);
+
+            UserEntity foundUser = await _usersRepository.GetUser(login, password);
 
             return foundUser.Adapt<User>();
         }
@@ -85,5 +100,19 @@ namespace CodeLaboratory.Services
 
             return claimsIdentity;
         }
+
+        public async Task Authenticate(User user, HttpContext context)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+            };
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+
+            await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        } 
     }
 }

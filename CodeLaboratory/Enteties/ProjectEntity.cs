@@ -16,7 +16,7 @@ namespace CodeLaboratory.Enteties
         public string Description { get; set; }
         public string GitHub { get; set; }
         public string Discord { get; set; }
-        public string OwnerId { get; set; }
+        public int OwnerId { get; set; }
         public UserEntity Owner { get; set; }
         public bool Finished { get; set; } = false;
         public string Language { get; set; }

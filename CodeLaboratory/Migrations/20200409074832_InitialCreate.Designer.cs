@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeLaboratory.Migrations
 {
     [DbContext(typeof(CodeLabDbContext))]
-    [Migration("20200328130536_InitialCreate")]
+    [Migration("20200409074832_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,15 +49,12 @@ namespace CodeLaboratory.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OwnerId1")
+                    b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId1");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("projects");
                 });
@@ -69,7 +66,7 @@ namespace CodeLaboratory.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("Avatar")
@@ -91,7 +88,8 @@ namespace CodeLaboratory.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -104,30 +102,25 @@ namespace CodeLaboratory.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Login");
+
                     b.ToTable("users");
                 });
 
             modelBuilder.Entity("CodeLaboratory.Enteties.UserProjectEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "ProjectId");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("user_projects");
                 });
@@ -136,7 +129,9 @@ namespace CodeLaboratory.Migrations
                 {
                     b.HasOne("CodeLaboratory.Enteties.UserEntity", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId1");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CodeLaboratory.Enteties.UserProjectEntity", b =>
@@ -149,7 +144,9 @@ namespace CodeLaboratory.Migrations
 
                     b.HasOne("CodeLaboratory.Enteties.UserEntity", "User")
                         .WithMany("UserProjects")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

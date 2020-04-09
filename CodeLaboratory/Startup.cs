@@ -18,6 +18,10 @@ using CodeLaboratory.Services;
 using CodeLaboratory.Data.Repositories.Abstract;
 using CodeLaboratory.Data.Repositories;
 using CodeLaboratory.Enteties;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using React.AspNet;
+using JavaScriptEngineSwitcher.ChakraCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CodeLaboratory
 {
@@ -49,6 +53,12 @@ namespace CodeLaboratory
                         ValidateIssuerSigningKey = true,
                     };
                 });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Register");
+                });
+
             services.AddCors();
             services.AddDbContext<CodeLabDbContext>(options =>
             {
@@ -59,8 +69,7 @@ namespace CodeLaboratory
             services.AddScoped<IProjectsService, ProjectsService>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IUsersService, UsersService>();
-
-            services.AddControllers();
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -82,7 +91,9 @@ namespace CodeLaboratory
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

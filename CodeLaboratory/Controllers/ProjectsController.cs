@@ -1,23 +1,19 @@
-﻿using CodeLaboratory.Domain;
-using CodeLaboratory.Enteties;
-using CodeLaboratory.Services.Abstract;
-using Mapster;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeLaboratory.Domain;
+using CodeLaboratory.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CodeLaboratory.API.Controllers
+
+namespace CodeLaboratory.Controllers
 {
-    [ApiController]
     [Authorize]
-    [Route("api/{Controller}")]
     public class ProjectsController : Controller
     {
         private readonly IProjectsService _projectService;
-
 
         public ProjectsController(IProjectsService projectService)
         {
@@ -25,46 +21,51 @@ namespace CodeLaboratory.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id}")]
+        [Route("{controller}/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _projectService.Get(id));
+            return View(await _projectService.Get(id));
         }
 
         [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("{controller}")]
+        public async Task<IActionResult> Get(string language)
         {
-            return Ok(await _projectService.GetAll());
+            var projects = await _projectService.GetAll();
+            if (!string.IsNullOrEmpty(language))
+            {
+                projects = projects.Where(p => p.Language == language);
+            }
+            return View("Projects", projects);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Project model)
         {
             await _projectService.Create(model, User.Identity.Name);
-            return Ok();
+            return RedirectToAction("Get");
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> Update(Project model)
         {
             await _projectService.Update(model);
-            return Ok(model);
+            return RedirectToAction("Get", new { id = model.Id });
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(Project model)
         {
             await _projectService.Delete(model);
-            return Ok(model);
+            return RedirectToAction("Get");
         }
 
-        [HttpPost("join")]
+        [HttpPost]
         public async Task<IActionResult> Join(int projectId)
         {
             await _projectService.JoinToProject(projectId, User.Identity.Name);
 
-            return Ok(await _projectService.Get(projectId));
+            return RedirectToAction("Get", new { id = projectId });
         }
-     }
+    }
 }

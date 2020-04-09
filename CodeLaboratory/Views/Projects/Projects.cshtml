@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CodeLaboratory.Domain.Project>
+@{
+    ViewBag.Title = "Проекты";
+}
+    <link rel="stylesheet" href="~/css/projects.css">
+    <main>
+        <h1>Проекты</h1>
+        <div class="languages-filter">
+            <a href="?">Все языки</a>
+            <a href="?language=CSharp">C#</a>
+            <a href="?language=Python">Python</a>
+            <a href="?language=JavaScript">JavaScript</a>
+            <a href="?language=C++">C++</a>
+            <a href="?language=Haskell">Haskell</a>
+            <a href="?language=Java">Java</a>
+        </div>
+        <div class="projects-list">
+            @foreach (var project in Model)
+            {
+                <div class="project-item">
+                    <div class="project-item-head">
+                        <a asp-route-id="@project.Id">Название проекта</a>
+                        <span>@project.Users.Count()/@project.MaxPeople Набор открыт</span><span class="lang">@project.Language</span>
+                    </div>
+                    <p class="project-item-description">@project.Description</p>
+                    <form asp-controller="Projects" asp-action="Join" asp-route-projectId="@project.Id" method="post"><input type="submit" value="Присоединится"></form>
+                </div>
+            }
+        </div>
+    </main>
+

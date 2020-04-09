@@ -1,17 +1,18 @@
 ﻿using CodeLaboratory.Domain;
 using CodeLaboratory.Enteties;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CodeLaboratory.Services.Abstract
 {
     public interface IProjectsService
     {
-        void JoinToProject(int projectId, string userIdentityLogin);
-        IEnumerable<ProjectEntity> GetAll();
-        ProjectEntity Get(int id);
-        void Delete(Project project);
-        void Update(Project project);
-        void Create(Project project);
-        void Create(Project project, string userIdentityLogin);
+        Task JoinToProject(int projectId, string userIdentityLogin);
+        Task<IEnumerable<Project>> GetAll();
+        Task<ProjectEntity> Get(int id);
+        Task Delete(Project project);
+        Task Update(Project project);
+        Task Create(Project project);
+        Task Create(Project project, string userIdentityLogin);
     }
 }

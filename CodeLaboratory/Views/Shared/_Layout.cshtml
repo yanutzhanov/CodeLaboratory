@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Ruda&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt&display=swap" rel="stylesheet">
+    <link href="~/css/layout.css" rel="stylesheet" />
+    <link href="~/css/index.css" rel="stylesheet" />
+
+</head>
+<body>
+    <script src="~/js/jquery-3.4.1.min.js"> </script>
+    <header>
+        <div class="logo"><h1>CodeLab</h1></div>
+        <nav>
+            <ul>
+                <li><a href="~/">Главная</a></li>
+                <li><a href="~/Projects/">Проекты</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="~/Account/Me">@User.Identity.Name</a></li>
+                    <li><form asp-action="LogOut" asp-controller="Account" method="post"><input id="logout" type="submit" value="Выход" /></form></li>
+                }
+                else
+                {
+                    <li><a href="~/Account/Register">Регистрация</a></li>
+                    <li><a href="~/Account/Login">Вход</a></li>
+                }
+
+            </ul>
+        </nav>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="footer-logo">
+            <h3>CodeLab</h3>
+            <span>2020</span>
+        </div>
+        <div>
+            <span>Разработано компанией AOYU</span>
+        </div>
+    </footer>
+</body>
+</html>
