@@ -1,0 +1,59 @@
+﻿@model CodeLaboratory.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+}
+<link href="~/css/registration.css" rel="stylesheet" />
+
+<main>
+    <h2>Регистрация</h2>
+    <form id="regForm" asp-controller="Account" asp-action="Register" method="post">
+        <div class="fields">
+            <div class="required-fields">
+                <p>Обязательные поля</p>
+                <div>
+                    <label>Логин <br><input type="text" id="login" name="Login"></label> <br>
+                    <span id="login-error"> </span>
+                </div>
+                <div>
+                    <label>Почта <br><input type="email" id="email" name="Email"></label> <br>
+                    <span id="email-error"> </span>
+                </div>
+                <div>
+                    <label>Ссылка на GitHub <br><input type="text" id="github" value="https://github.com/" name="GitHub"></label> <br>
+                    <span id="github-error"> </span>
+                </div>
+                <div>
+                    <label>Пароль <br><input type="password" id="password" name="Password"></label> <br>
+                    <span id="password-error"> </span>
+                </div>
+                <div>
+                    <label>Повторите пароль <br><input type="password" id="confirm-password"></label> <br>
+                    <span id="confirm-password-error"> </span>
+                </div>
+            </div>
+            <div class="non-required-fields">
+                <p>Необязательные поля</p>
+                <div>
+                    <label>Имя <br><input type="text" id="name" name="FirstName"></label>
+                </div>
+                <div>
+                    <label>Фамилия <br><input type="text" id="secondName" name="SecondName"></label>
+                </div>
+                <div>
+                    <label>Возраст <br><input type="number" id="age" name="Age"></label>
+                </div>
+                <div>
+                    <label>Город <br><input type="text" id="city" name="City"></label>
+                </div>
+                <div>
+                    <label>Ссылка на Discord <br><input type="text" id="discord" name="Discord"></label>
+                </div>
+            </div>
+        </div>
+        <div class="sbm-btn">
+            <button id="register-btn" disabled="disabled">Зарегистрироваться</button>
+        </div>
+    </form>
+</main>
+<script src="~/js/registration-check.js"></script>

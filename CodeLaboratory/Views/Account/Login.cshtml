@@ -1,0 +1,26 @@
+﻿@model CodeLaboratory.Models.LoginModel;
+
+@{
+    ViewBag.Title = "Вход";
+}
+    <link href="~/css/login.css" rel="stylesheet" />
+<main>
+    <h2>Вход</h2>
+    <form id="regForm" method="post">
+        <div>
+            <label>
+                Логин <br>
+                <input type="text" id="login" name="login">
+            </label>
+        </div>
+        <div>
+            <label>
+                Пароль <br>
+                <input type="password" id="password" name="password">
+            </label>
+        </div>
+        <div class="sbm-btn">
+            <button id="register-btn">Вход</button>
+        </div>
+    </form>
+</main>

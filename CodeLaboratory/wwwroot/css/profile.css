@@ -1,0 +1,95 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Ruda', sans-serif;
+}
+
+main {
+    padding: 0 15% 0 15%;
+}
+
+.account-nav ul {
+    display: flex;
+}
+
+    .account-nav ul li {
+        list-style-type: none;
+        margin-right: 40px;
+    }
+
+.avatar {
+    margin: 50px 0 0 50px;
+}
+
+    .avatar img {
+        width: 150px;
+        height: 150px;
+    }
+
+.account-nav ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.active {
+    text-decoration: underline !important;
+}
+
+.account-info-items {
+    position: relative;
+}
+
+#settings-btn {
+    align-self: end;
+    text-align: right;
+}
+
+    #settings-btn button {
+        padding: 0;
+        width: 40px;
+        height: 25px;
+    }
+
+    #settings-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+.account-info-items .account-info-item {
+    display: flex;
+    background-color: #F6F6F6;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    height: 70px;
+    align-items: center;
+    font-size: 16px;
+}
+
+input:not(:first-child) {
+    font-size: 16px;
+    margin: 0;
+    margin-right: 44%;
+    width: 300px;
+}
+
+.item-key {
+    margin-left: 5%;
+    width: 35%;
+}
+
+.item-value {
+    width: 65%;
+}
+
+input[type=submit]:last-child {
+    display: block;
+    background-color: #02005C;
+    color: white;
+    border: none;
+    font-size: 16px;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 20px;
+}

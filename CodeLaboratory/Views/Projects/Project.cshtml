@@ -1,0 +1,65 @@
+﻿@model CodeLaboratory.Domain.Project;
+@{
+    ViewData["Title"] = Model.Name;
+}
+    <link href="~/css/project.css" rel="stylesheet" />
+    <main>
+        <h1>Название проекта</h1>
+        <div class="project-info">
+            <form asp-controller="Projects" asp-action="FinishProject" method="post">
+                <div class="top-info">
+                    <div class="name-info">
+                        <p class="item-key">Название идеи:</p>
+                        <p class="item-value">@Model.Name</p>
+                    </div>
+                    <div class="maxnum-info">
+                        <p class="item-key">Макс. кол-во человек</p>
+                        <p class="item-value">@Model.MaxPeople</p>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="description">
+                    <p class="item-key">Описание:</p>
+                    <p class="item-value">@Model.Description</p>
+                </div>
+                <div class="bottom-info">
+                    <div class="peoples-info">
+                        <p class="item-key">Список участников: </p>
+                        <ol class="item-value">
+                            @foreach (var people in Model.Users)
+                            {
+                                <li><a asp-controller="Account" asp-action="Profile" asp-route-login="@people.Login">@people.Login</a></li>
+                            }
+                        </ol>
+                    </div>
+                    <div class="links">
+                        <div class="github">
+                            <p class="item-key">Ссылка на GitHub:</p>
+                            <p class="item-value">@Model.GitHub</p>
+                        </div>
+                        <div class="discord">
+                            <p class="item-key">Ссылка на Discord:</p>
+                            <p class="item-value">@Model.Discord</p>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                @if (User.Identity.Name == Model.Owner.Login)
+                {
+                    <div class="buttons">
+                        <button id="settings">Настройки</button>
+                        <button class="finish-project">Завершить проект</button>
+                        <div></div>
+                    </div>
+                }
+                else
+                {
+                    <div style="display: flex; justify-content: center;">
+                        <button>Покинуть проект</button>
+                    </div>
+                }
+
+            </form>
+        </div>
+    </main>
+

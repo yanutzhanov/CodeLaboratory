@@ -1,0 +1,61 @@
+﻿@model CodeLaboratory.Domain.Project;
+@{
+    ViewData["Title"] = "Создать проект";
+}
+    <link href="~/css/create-idea.css" rel="stylesheet" />
+    <main>
+        <h2>Создание проекта</h2>
+        <form asp-controller="Projects" asp-action="CreateProjectPost" method="post">
+            <div id="create-idea-post">
+                <div>
+                    <label>
+                        Описание <br>
+                        <textarea name="description" cols="50" rows="13"></textarea>
+                    </label>
+                </div>
+                    <div>
+                        <div>
+                            <label>
+                                Название идеи <br>
+                                <input type="text" name="name">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Макс. кол-во человек <br>
+                                <input type="number" name="maxPeople">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Ссылка на GitHub <br>
+                                <input type="text" name="gitHub">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Ссылка на Discord <br>
+                                <input type="text" name="discord">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Язык программирования <br>
+                                <select name="language">
+                                    <option value="CSharp">C#</option>
+                                    <option value="Java">Java</option>
+                                    <option value="Javascript">Javascript</option>
+                                    <option value="Cpp">C++</option>
+                                    <option value="Haskell">Haskell</option>
+                                    <option value="Python">Python</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="sbm-btn">
+                <button type="submit">Создать</button>
+            </div>
+        </form>
+    </main>

@@ -1,0 +1,27 @@
+﻿@model CodeLaboratory.Domain.User;
+@{
+    ViewData["Title"] = Model.Login;
+}
+<link href="~/css/profile.css" rel="stylesheet" />
+<link href="~/css/projects.css" rel="stylesheet" />
+<main>
+    <div class="account-nav">
+        <ul>
+            <li><a asp-controller="Account" asp-action="Profile" asp-route-login="@Model.Login">Аккаунт</a></li>
+            <li><a asp-controller="Account" asp-action="CurrentProjects" asp-route-login="@Model.Login">Текущие проекты</a></li>
+            <li><a href="#" class="active">Завершенные проекты</a></li>
+        </ul>
+    </div>
+    <div class="current-projects">
+        @foreach (var project in Model.Projects)
+        {
+            <div class="project-item">
+                <div class="project-item-head">
+                    <a asp-controller="Projects" asp-action="GetProject" asp-route-id="@project.Id">@project.Name</a>
+                    <span class="lang">@project.Language</span>
+                </div>
+                <p class="project-item-description">@project.Description</p>
+            </div>
+        }
+    </div>
+</main>

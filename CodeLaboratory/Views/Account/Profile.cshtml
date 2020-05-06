@@ -1,0 +1,68 @@
+﻿@model CodeLaboratory.Domain.User;
+@{
+    ViewData["Title"] = Model.Login;
+}
+
+    <link href="~/css/profile.css" rel="stylesheet" />
+    <main>
+        <div class="account-nav">
+            <ul>
+                <li><a href="#" class="active">Аккаунт</a></li>
+                <li><a asp-controller="Account" asp-action="CurrentProjects" asp-route-login="@Model.Login">Текущие проекты</a></li>
+                <li><a asp-controller="Account" asp-action="FinishedProjects" asp-route-login="@Model.Login">Завершенные проекты</a></li>
+            </ul>
+        </div>
+        <form asp-action="Profile" asp-controller="Account" method="post">
+            <div class="account-info">
+                <div class="account-info-items">
+                    @if (User.Identity.Name == Model.Login)
+                    {
+                        <div id="settings-btn">
+                            <button><img src="~/img/settings.png" alt=""></button>
+                        </div>
+                    } else
+                    {
+                        <div style="height: 27px;"></div>
+                    }
+
+                    <div class="account-info-item">
+                        <div class="item-key">Логин</div>
+                        <div class="item-value">@Model.Login</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Почта</div>
+                        <div class="item-value">@Model.Email</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">GitHub</div>
+                        <div class="item-value">@Model.GitHub</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Имя</div>
+                        <div class="item-value">@Model.FirstName</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Фамилия</div>
+                        <div class="item-value">@Model.SecondName</div>
+                    </div>
+                    <div class="account-info-item" number="true">
+                        <div class="item-key">Возраст</div>
+                        <div class="item-value">@Model.Age</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Город</div>
+                        <div class="item-value">@Model.City</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Discord</div>
+                        <div class="item-value">@Model.Discord</div>
+                    </div>
+                    <div class="account-info-item">
+                        <div class="item-key">Завешенных проектов</div>
+                        <div class="item-value">@Model.CountOfFinishedProjects</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script src="~/js/profile.js"></script>
