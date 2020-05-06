@@ -8,9 +8,8 @@
     } else {
         $('#register-btn').attr('disabled', 'true');
     }
-
-    // $("#password").val().length < 6 ? $('#register-btn').attr('disabled', 'true') : $('#register-btn').removeAttr('disabled');
 }
+
 $('#password').keyup(() => FormCheck());
 $('#confirm-password').keyup(() => FormCheck());
 $('#github').keyup(() => FormCheck());

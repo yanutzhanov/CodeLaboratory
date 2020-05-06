@@ -1,27 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CodeLaboratory.Data.Contexts;
+using CodeLaboratory.Data.Repositories;
+using CodeLaboratory.Data.Repositories.Abstract;
+using CodeLaboratory.Helpers;
+using CodeLaboratory.Services;
+using CodeLaboratory.Services.Abstract;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using CodeLaboratory.Helpers;
 using Microsoft.IdentityModel.Tokens;
-using CodeLaboratory.Data.Contexts;
-using Microsoft.EntityFrameworkCore;
-using CodeLaboratory.Services.Abstract;
-using CodeLaboratory.Services;
-using CodeLaboratory.Data.Repositories.Abstract;
-using CodeLaboratory.Data.Repositories;
-using CodeLaboratory.Enteties;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using React.AspNet;
-using JavaScriptEngineSwitcher.ChakraCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CodeLaboratory
 {
@@ -56,7 +47,7 @@ namespace CodeLaboratory
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new PathString("/Account/Register");
+                    options.LoginPath = new PathString("/Account/Login");
                 });
 
             services.AddCors();

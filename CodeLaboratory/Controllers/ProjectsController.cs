@@ -14,17 +14,18 @@ namespace CodeLaboratory.Controllers
     public class ProjectsController : Controller
     {
         private readonly IProjectsService _projectService;
-
-        public ProjectsController(IProjectsService projectService)
+        private readonly IUsersService _usersService;
+        public ProjectsController(IProjectsService projectService, IUsersService usersService)
         {
             _projectService = projectService ?? throw new ArgumentNullException(nameof(projectService));
+            _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
         [AllowAnonymous]
         [Route("{controller}/{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetProject(int id)
         {
-            return View(await _projectService.Get(id));
+            return View("Project", await _projectService.Get(id));
         }
 
         [AllowAnonymous]
@@ -36,14 +37,23 @@ namespace CodeLaboratory.Controllers
             {
                 projects = projects.Where(p => p.Language == language);
             }
+            if (User.Identity.IsAuthenticated)
+                projects = projects.Where(p => !p.Users.Select(u => u.Login).ToList().Contains(User.Identity.Name));
+            projects = projects.Where(p => !p.Finished);
             return View("Projects", projects);
         }
 
+        [HttpGet]
+        public IActionResult CreateProject(Project model)
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create(Project model)
+        public async Task<IActionResult> CreateProjectPost(Project model)
         {
             await _projectService.Create(model, User.Identity.Name);
-            return RedirectToAction("Get");
+            return RedirectToAction("CurrentProjects", "Account", new { login = User.Identity.Name });
         }
 
         [HttpPost]
@@ -61,11 +71,22 @@ namespace CodeLaboratory.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Join(int projectId)
+        public async Task<IActionResult> JoinToProject(int projectId)
         {
-            await _projectService.JoinToProject(projectId, User.Identity.Name);
-
-            return RedirectToAction("Get", new { id = projectId });
+            if (User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    await _projectService.JoinToProject(projectId, User.Identity.Name);
+                    return RedirectToAction("GetProject", new { id = projectId });
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            }
+            return RedirectToAction("Login", "Account");
+            
         }
     }
 }

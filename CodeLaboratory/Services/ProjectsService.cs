@@ -33,15 +33,20 @@ namespace CodeLaboratory.Services
             foreach (var projectEntity in projectEnitites)
             {
                 var project = projectEntity.Adapt<Project>();
-                project.Users = projectEntity.UserProjects.Select(u => u.Adapt<UserProject>());
+                project.Users = projectEntity.UserProjects.Select(u => u.User.Adapt<User>()).ToList();
+                project.Owner = projectEntity.Owner.Adapt<User>();
                 projects.Add(project);
             }
             return projects;
         }
 
-        public async Task<ProjectEntity> Get(int id)
+        public async Task<Project> Get(int id)
         {
-            return await _projectRepository.GetById(id);
+            ProjectEntity projectEntity = await _projectRepository.GetById(id);
+            Project project = projectEntity.Adapt<Project>();
+            project.Owner = projectEntity.Owner.Adapt<User>();
+            project.Users = projectEntity.UserProjects.Select(u => u.User.Adapt<User>()).ToList();
+            return project;
         }
 
         public async Task Delete(Project project)

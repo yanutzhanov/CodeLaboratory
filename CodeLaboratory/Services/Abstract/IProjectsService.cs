@@ -9,7 +9,7 @@ namespace CodeLaboratory.Services.Abstract
     {
         Task JoinToProject(int projectId, string userIdentityLogin);
         Task<IEnumerable<Project>> GetAll();
-        Task<ProjectEntity> Get(int id);
+        Task<Project> Get(int id);
         Task Delete(Project project);
         Task Update(Project project);
         Task Create(Project project);

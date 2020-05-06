@@ -6,7 +6,7 @@ namespace CodeLaboratory.Domain
     {
         public Project()
         {
-            Users = new List<UserProject>();
+            Users = new List<User>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace CodeLaboratory.Domain
         public string Discord { get; set; }
         public bool Finished { get; set; } = false;
         public string Language { get; set; }
-        public IEnumerable<UserProject> Users { get; set; }
+        public List<User> Users { get; set; }
     }
 }

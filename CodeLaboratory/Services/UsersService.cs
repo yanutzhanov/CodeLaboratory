@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CodeLaboratory.Data.Repositories.Abstract;
@@ -72,7 +73,10 @@ namespace CodeLaboratory.Services
 
             if (foundUser is null) return null;
 
-            return foundUser.Adapt<User>();
+            User user = foundUser.Adapt<User>();
+            user.Projects = foundUser.UserProjects.Select(up => up.Project.Adapt<Project>());
+
+            return user;
         }
 
         public async Task<User> GetUser(string login, string password)
@@ -84,7 +88,9 @@ namespace CodeLaboratory.Services
 
             UserEntity foundUser = await _usersRepository.GetUser(login, password);
 
-            return foundUser.Adapt<User>();
+            User user = foundUser.Adapt<User>();
+               
+            return user;
         }
 
         public ClaimsIdentity GetIdentity(User user)

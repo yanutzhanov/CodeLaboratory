@@ -1,6 +1,5 @@
 ﻿using CodeLaboratory.Enteties;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace CodeLaboratory.Data.Contexts
 {

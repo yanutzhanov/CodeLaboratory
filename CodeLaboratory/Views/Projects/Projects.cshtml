@@ -6,11 +6,12 @@
     <main>
         <h1>Проекты</h1>
         <div class="languages-filter">
+            <a asp-action="CreateProject">Создать проект</a>
             <a href="?">Все языки</a>
             <a href="?language=CSharp">C#</a>
             <a href="?language=Python">Python</a>
-            <a href="?language=JavaScript">JavaScript</a>
-            <a href="?language=C++">C++</a>
+            <a href="?language=Javascript">JavaScript</a>
+            <a href="?language=Cpp">C++</a>
             <a href="?language=Haskell">Haskell</a>
             <a href="?language=Java">Java</a>
         </div>
@@ -19,11 +20,12 @@
             {
                 <div class="project-item">
                     <div class="project-item-head">
-                        <a asp-route-id="@project.Id">Название проекта</a>
+                        <a asp-action="GetProject" asp-route-id="@project.Id">@project.Name</a>
                         <span>@project.Users.Count()/@project.MaxPeople Набор открыт</span><span class="lang">@project.Language</span>
+                        <a asp-controller="Account" asp-action="Profile" asp-route-login="@project.Owner.Login">@project.Owner.Login</a>
                     </div>
                     <p class="project-item-description">@project.Description</p>
-                    <form asp-controller="Projects" asp-action="Join" asp-route-projectId="@project.Id" method="post"><input type="submit" value="Присоединится"></form>
+                    <form asp-controller="Projects" asp-action="JoinToProject" asp-route-projectId="@project.Id" method="post"><input type="submit" value="Присоединится"></form>
                 </div>
             }
         </div>

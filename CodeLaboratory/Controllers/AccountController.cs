@@ -72,6 +72,15 @@ namespace CodeLaboratory.Controllers
 
             if (user is null) return BadRequest();
 
+            return View("Profile", user);
+        }
+
+        public async Task<IActionResult> Profile(string login)
+        {
+            User user = await _usersService.GetAuthenticatedUser(login);
+
+            if (user is null) return BadRequest();
+
             return View(user);
         }
 
@@ -79,6 +88,24 @@ namespace CodeLaboratory.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
+        }
+
+        public async Task<IActionResult> CurrentProjects(string login)
+        {
+            User user = await _usersService.GetAuthenticatedUser(login);
+            if (user is null) return BadRequest();
+            user.Projects = user.Projects.Where(p => !p.Finished);
+
+            return View(user);
+        }
+
+        public async Task<IActionResult> FinishedProjects(string login)
+        {
+            User user = await _usersService.GetAuthenticatedUser(login);
+            if (user is null) return BadRequest();
+            user.Projects = user.Projects.Where(p => p.Finished);
+
+            return View(user);
         }
     }
 }

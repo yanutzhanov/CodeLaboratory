@@ -46,7 +46,7 @@ namespace CodeLaboratory.Data.Repositories
 
         public async Task<UserEntity> GetUserByLogin(string login)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Login == login);
+            return await _context.Users.Include(u => u.UserProjects).ThenInclude(up => up.Project).FirstOrDefaultAsync(x => x.Login == login);
         }
     }
 }

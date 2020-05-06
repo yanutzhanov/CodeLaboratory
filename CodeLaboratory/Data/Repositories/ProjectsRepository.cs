@@ -20,6 +20,7 @@ namespace CodeLaboratory.Data.Repositories
         public async Task JoinToProject(int projectId, string userIdentityLogin)
         {
             ProjectEntity project = _context.Projects.Find(projectId);
+            if (project.UserProjects.Count() == project.MaxPeople) throw new Exception();
             UserEntity user = await _context.Users.FirstOrDefaultAsync(u => u.Login.ToLower() == userIdentityLogin.ToLower());
             _context.UserProjects.Add(new UserProjectEntity { Project = project, User = user });
             await _context.SaveChangesAsync();
@@ -36,12 +37,17 @@ namespace CodeLaboratory.Data.Repositories
 
         public new async Task<IEnumerable<ProjectEntity>> Get()
         {
-            return await _context.Projects.Include(p => p.UserProjects).AsNoTracking().ToListAsync();
+            var projects = await _context.Projects.Include(p => p.UserProjects).ThenInclude(up => up.User).AsNoTracking().ToListAsync();
+            foreach (var project in projects)
+            {
+                project.Owner = project.UserProjects.Select(p => p.User).FirstOrDefault();
+            }
+            return projects;
         }
 
         public new async Task<ProjectEntity> GetById(int id)
         {
-            return await _context.Projects.Include(p => p.UserProjects).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Projects.Include(p => p.UserProjects).ThenInclude(up => up.User).FirstOrDefaultAsync(p => p.Id == id);
         }
 
     }
